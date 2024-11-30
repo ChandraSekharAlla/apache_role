@@ -1,0 +1,23 @@
+---
+# tasks file for apache
+- name: install apache2
+  ansible.builtin.apt:
+    name: apache2
+    state: present
+- name: start apache2
+  ansible.builtin.service:
+    name: apache2
+    state: started
+- name: chandge port
+  ansible.builtin.template:
+    src: ports.conf.j2
+    dest: /etc/apache2/ports.conf
+  notify:
+  - Restart Apache
+- name: chandge default page
+  ansible.builtin.copy:
+    src: index.html
+    dest: /var/www/html/
+  notify:
+  - Restart Apache
+    
